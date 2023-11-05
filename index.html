@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="css/bootstrap.css", rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.111/Build/Cesium/Cesium.js"></script>
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.111/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <script src="js/camera.js"></script>
+    <script src="js/scenery.js"></script>
+    <script src="js/locations.js"></script>
+    <script src="js/papaparse.min.js"></script>
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container">
+<div id="cesiumContainer"></div>
+
+<div id="optionBox">
+    <div class="btn-group">
+        <a href="#" class="btn btn-primary loc-button" data-lon="-74.4038501158" data-lat="39.3741921782" data-alt="-30.4427651257">Proposed New Jersey Wind HQ</a>
+        <a href="#" class="btn btn-primary loc-button" data-lon="-74.80413677420844" data-lat="38.98660243659862" data-alt="-34">Wildwood Beach</a>
+        <a href="#" class="btn btn-primary loc-button" data-lon="-74.65890747631624" data-lat="39.191560792143804" data-alt="-34">Strathmere Beach</a>
+        <a href="#" class="btn btn-primary loc-button" data-lon="-74.10630449111352" data-lat="39.76492045394645" data-alt="22">Barnegat Lighthouse</a>
+        <a href="#" class="btn btn-primary loc-button"  data-lon="-75.07532487480769" data-lat="38.71561169267683" data-alt="-34">Rehoboth Beach, DE</a>
+        <a href="#" class="btn btn-primary loc-button"  data-lon="-74.96051150922675" data-lat="38.93378596026879" data-alt="18">Cape May Lighthouse</a>
+        <a href="#" class="btn btn-primary loc-button"  data-lon="-74.41490718689298" data-lat="39.362536675749475" data-alt="189">Ocean Casino, Atlantic City</a>
+        <a href="#" class="btn btn-primary loc-button"  data-lon="-74.41836932414267" data-lat="39.35630988848063" data-alt="-30">Steel Pier, Atlantic City</a>
+        <a href="#" class="btn btn-primary loc-button"  data-lon="-74.198994" data-lat="39.187079" data-alt="-10">Offshore Substation A</a>
+    </div>
+</div>
+    <p id="time"></p>
+</div>
+
+<script type="module">
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhOTA2Y2ZkNi1kYTRhLTRjYmMtYjBlYi04MGE1MGU5ZTYxYWEiLCJpZCI6MTc1Njk0LCJpYXQiOjE2OTg5NTMzOTB9.ZLBt2uYdwVgMzbTfmSTAA14QpnrE4uvSBwdlPSInPFk';
+
+    // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
+    const viewer = new Cesium.Viewer('cesiumContainer', {
+        terrain: Cesium.Terrain.fromWorldTerrain(),
+        baseLayerPicker: false,
+        geocoder: false,
+        homeButton: false,
+        msaaSamples: 4,
+        shadows: true,
+        infoBox: false,
+        projectionPicker: false
+    });
+
+    viewer.cameraInput = new CameraInputHandler(viewer);
+    viewer.cameraInput.setUp();
+    viewer.cameraInput.enableFirstPersonFixedCamera();
+
+    viewer.objectManager = new ObjectManager(viewer);
+    await viewer.objectManager.loadObjects();
+    const locations = new LocationManager(viewer);
+    locations.moveToHQ();
+
+    document.querySelectorAll(".loc-button").forEach(function (button) {
+        button.addEventListener('click', (event) => {
+            let lat = parseFloat(event.currentTarget.getAttribute("data-lat"));
+            let lon = parseFloat(event.currentTarget.getAttribute("data-lon"));
+            let alt = parseFloat(event.currentTarget.getAttribute("data-alt"));
+            locations.moveCameraTo(lat, lon, alt);
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+#cesiumContainer {
+    width: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#optionBox {
+    background-color: black;
+    width: 100%;
+}
