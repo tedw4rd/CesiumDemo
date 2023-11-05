@@ -16,7 +16,7 @@ class ObjectManager {
         this.arrayCenterLon = 0;
         let self = this;
         let results = await new Promise(function (resolve, reject) {
-            Papa.parse("/assets/turbines.csv", {
+            Papa.parse("assets/turbines.csv", {
                 download: true,
                 header: true,
                 dynamicTyping: true,
@@ -34,7 +34,7 @@ class ObjectManager {
                 name: turbine.ID,
                 position: Cesium.Cartesian3.fromDegrees(long, lat, -turbine.Depth),
                 model: {
-                    uri: "/assets/Turbine.glb",
+                    uri: "assets/Turbine.glb",
                     scale: 276
                 },
             });
