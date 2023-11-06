@@ -46,7 +46,6 @@ class ObjectManager {
             let sunrise = 84600;
             let sunset = 36000;
             let time = clock.currentTime.secondsOfDay;
-            document.getElementById("time").innerText = time;
             if (time > sunrise+3600 || time < sunset-3600) {// black sky between 6AM and 8PM
                 self.scene.skyAtmosphere.brightnessShift = 0;
             }

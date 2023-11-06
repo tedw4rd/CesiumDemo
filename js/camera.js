@@ -89,7 +89,7 @@ class CameraInputHandler {
             const y = -(this.mousePosition.y - this.startMousePosition.y) / height;
 
             const lookFactor = 0.05;
-            this.camera.lookRight(x * lookFactor);
+            this.camera.look(this.camera.position, x * lookFactor);
             this.camera.lookUp(y * lookFactor);
         }
     }
